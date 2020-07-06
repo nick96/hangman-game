@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import StickPerson from "./StickPerson";
 
 // Number of lives the user starts with initially.
 const INITIAL_LIVES = 6;
@@ -7,17 +8,17 @@ const INITIAL_LIVES = 6;
 // Styled container that the whole app is wrapped in.
 const AppContainer = styled.div`
   text-align: center;
-  background-color: #282c34;
+  /* background-color: #282c34; */
   min-height: 100vh;
   display: grid;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  /* color: white; */
 `;
 
 // Display for the life count.
-const LifeDisplay = styled.div`
+const LifeDisplayContainer = styled.div`
   grid-row: 2;
 `;
 
@@ -90,6 +91,21 @@ const WordDisplay: React.FunctionComponent<{
     <WordDisplayContainer wordLength={guessedLetters.length}>
       {displayLetters}
     </WordDisplayContainer>
+  );
+};
+
+const LifeDisplay: React.FunctionComponent<{ lives: number }> = ({ lives }) => {
+  return (
+    <LifeDisplayContainer>
+      <StickPerson
+        head={lives < 6}
+        torso={lives < 5}
+        leftArm={lives < 4}
+        rightArm={lives < 3}
+        leftLeg={lives < 2}
+        rightLeg={lives < 1}
+      />
+    </LifeDisplayContainer>
   );
 };
 
@@ -170,7 +186,7 @@ function App() {
   return (
     <AppContainer>
       <WordDisplay guessedLetters={gameState.guessedLetters}></WordDisplay>
-      <LifeDisplay>{gameState.lives}</LifeDisplay>
+      <LifeDisplay lives={gameState.lives} />
       <LetterInput gameState={gameState} setGameState={setGameState} />
     </AppContainer>
   );
