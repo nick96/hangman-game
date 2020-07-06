@@ -11,6 +11,7 @@ const Container = styled.div`
 `;
 
 const Hideable = styled.div`
+  box-sizing: border-box;
   visibility: ${(props: { show: boolean }) =>
     props.show ? "visible" : "hidden"};
 `;
