@@ -10,8 +10,14 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Hideable = styled.div`
+const Component = styled.div`
   box-sizing: border-box;
+  border: 3px solid black;
+  display: block;
+  position: absolute;
+`;
+
+const Hideable = styled(Component)`
   visibility: ${(props: { show: boolean }) =>
     props.show ? "visible" : "hidden"};
 `;
@@ -21,8 +27,6 @@ const Head = styled(Hideable)`
   height: 60px;
   border: 5px solid black;
   border-radius: 50%;
-  display: block;
-  position: absolute;
   top: 21px;
   left: 133px;
   z-index: 1;
@@ -32,9 +36,6 @@ const Head = styled(Hideable)`
 const Torso = styled(Hideable)`
   width: 6px;
   height: 100px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 80px;
   left: 156px;
 `;
@@ -42,9 +43,6 @@ const Torso = styled(Hideable)`
 const LeftLeg = styled(Hideable)`
   width: 6px;
   height: 100px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 175px;
   left: 155px;
   transform: rotate(12deg);
@@ -54,9 +52,6 @@ const LeftLeg = styled(Hideable)`
 const RightLeg = styled(Hideable)`
   width: 6px;
   height: 100px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 175px;
   left: 157px;
   transform: rotate(-12deg);
@@ -64,33 +59,26 @@ const RightLeg = styled(Hideable)`
 `;
 
 const LeftArm = styled(Hideable)`
-  width: 100px;
+  width: 75px;
   height: 6px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 86px;
-  left: 57px;
+  left: 83px;
+  transform: rotate(-45deg);
   transform-origin: 100%;
 `;
 
 const RightArm = styled(Hideable)`
-  width: 100px;
+  width: 75px;
   height: 6px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 86px;
-  left: 161px;
+  left: 159px;
   transform-origin: 0%;
+  transform: rotate(45deg);
 `;
 
 const LeftFoot = styled(Hideable)`
   width: 30px;
   height: 6px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 270px;
   left: 110px;
   transform: rotate(8deg);
@@ -99,9 +87,6 @@ const LeftFoot = styled(Hideable)`
 const RightFoot = styled(Hideable)`
   width: 30px;
   height: 6px;
-  border: 3px solid black;
-  display: block;
-  position: absolute;
   top: 270px;
   left: 178px;
   transform: rotate(-8deg);
