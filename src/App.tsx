@@ -141,7 +141,7 @@ const LetterInput: React.FunctionComponent<{
     setLetter("");
 
     if (gameState.lives === 0) {
-      alert("You lose!");
+      alert(`You lose! The word was ${gameState.word}`);
     } else if (
       gameState.guessedLetters.every((letter: string | null) => letter !== null)
     ) {
