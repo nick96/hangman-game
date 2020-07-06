@@ -142,6 +142,11 @@ const LetterInput: React.FunctionComponent<{
   const [letter, setLetter] = React.useState("");
 
   const updateGameState = (letter: string) => {
+    if (gameState.selectedLetters.includes(letter)) {
+      alert(`You've already selected '${letter}'`);
+      return;
+    }
+
     gameState.selectedLetters.push(letter);
     const letterIndicies = matchAll(
       gameState.word,
