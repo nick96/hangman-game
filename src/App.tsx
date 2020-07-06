@@ -197,7 +197,7 @@ const LetterInput: React.FunctionComponent<{
 
   const resetGameState = () => {
     setGameState({
-      word: gameState.word,
+      word: newRandomWord(),
       lives: INITIAL_LIVES,
       guessedLetters: gameState.word.split("").map((_) => null),
       playerStatus: PlayerStatus.Play,
@@ -257,9 +257,14 @@ const SelectedLettersDisplay: React.FunctionComponent<{
   );
 };
 
-function App() {
+const newRandomWord = (): string => {
   const words = Object.keys(data);
-  const word = words[Math.floor(Math.random() * words.length)];
+  const index = Math.floor(Math.random() * words.length);
+  return words[index];
+};
+
+function App() {
+  const word = newRandomWord();
   let [gameState, setGameState] = React.useState<GameState>({
     word: word,
     guessedLetters: word.split("").map((_) => null),
