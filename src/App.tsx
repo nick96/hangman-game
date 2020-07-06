@@ -57,6 +57,12 @@ const ResetButton = styled.button`
   grid-row: 2;
 `;
 
+enum PlayerStatus {
+  Play,
+  Win,
+  Lose,
+}
+
 // Game state represents the current state of the game.
 interface GameState {
   // Word the user is guessing
@@ -68,6 +74,8 @@ interface GameState {
   guessedLetters: (string | null)[];
   // Number of lives the user has left.
   lives: number;
+  // State of play the player is in.
+  playerStatus: PlayerStatus;
 }
 
 const WordDisplay: React.FunctionComponent<{
@@ -141,10 +149,14 @@ const LetterInput: React.FunctionComponent<{
     setLetter("");
 
     if (gameState.lives === 0) {
+      gameState.playerStatus = PlayerStatus.Lose;
+      setGameState({ ...gameState });
       alert(`You lose! The word was ${gameState.word}`);
     } else if (
       gameState.guessedLetters.every((letter: string | null) => letter !== null)
     ) {
+      gameState.playerStatus = PlayerStatus.Win;
+      setGameState({ ...gameState });
       alert("You win!");
     }
   };
@@ -154,6 +166,7 @@ const LetterInput: React.FunctionComponent<{
       word: gameState.word,
       lives: INITIAL_LIVES,
       guessedLetters: gameState.word.split("").map((_) => null),
+      playerStatus: PlayerStatus.Play,
     });
   };
 
@@ -165,8 +178,12 @@ const LetterInput: React.FunctionComponent<{
         maxLength={1}
         onChange={(e) => setLetter(e.target.value)}
         value={letter}
+        disabled={gameState.playerStatus !== PlayerStatus.Play}
       />
-      <LetterSubmitButton onClick={() => updateGameState(letter)}>
+      <LetterSubmitButton
+        onClick={() => updateGameState(letter)}
+        disabled={gameState.playerStatus !== PlayerStatus.Play}
+      >
         Submit
       </LetterSubmitButton>
       <ResetButton onClick={resetGameState}>Reset</ResetButton>
@@ -181,6 +198,7 @@ function App() {
     word: word,
     guessedLetters: word.split("").map((_) => null),
     lives: INITIAL_LIVES,
+    playerStatus: PlayerStatus.Play,
   });
 
   return (
