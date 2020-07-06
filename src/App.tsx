@@ -21,13 +21,20 @@ const LifeDisplayContainer = styled.div`
   grid-row: 2;
 `;
 
-const WordDisplayContainer = styled.div`
+const DynamicGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(
     ${(props: { wordLength: number }) => props.wordLength},
     1fr
   );
   grid-gap: 10px;
+`;
+
+const SelectedLettersContainer = styled(DynamicGridContainer)`
+  grid-row: 2;
+`;
+
+const WordDisplayContainer = styled(DynamicGridContainer)`
   grid-row: 1;
 `;
 
