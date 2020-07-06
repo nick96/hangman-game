@@ -50,6 +50,13 @@ const LetterInputContainer = styled.div`
   grid-row: 4;
 `;
 
+const LetterInputForm = styled.form`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-column: 1 / 4;
+`;
+
 const TextInput = styled.input`
   grid-column: 1 / 3;
   grid-row: 1;
@@ -142,6 +149,10 @@ const LetterInput: React.FunctionComponent<{
   const [letter, setLetter] = React.useState("");
 
   const updateGameState = (letter: string) => {
+    if (letter.trim() === "") {
+      return;
+    }
+
     if (gameState.selectedLetters.includes(letter)) {
       alert(`You've already selected '${letter}'`);
       return;
@@ -196,20 +207,29 @@ const LetterInput: React.FunctionComponent<{
 
   return (
     <LetterInputContainer>
-      <TextInput
-        type="text"
-        size={1}
-        maxLength={1}
-        onChange={(e) => setLetter(e.target.value)}
-        value={letter}
-        disabled={gameState.playerStatus !== PlayerStatus.Play}
-      />
-      <LetterSubmitButton
-        onClick={() => updateGameState(letter)}
-        disabled={gameState.playerStatus !== PlayerStatus.Play}
-      >
-        Submit
-      </LetterSubmitButton>
+      <LetterInputForm>
+        <TextInput
+          type="text"
+          size={1}
+          maxLength={1}
+          minLength={1}
+          onChange={(e) => setLetter(e.target.value)}
+          value={letter}
+          disabled={gameState.playerStatus !== PlayerStatus.Play}
+        />
+        <LetterSubmitButton
+          onClick={(e) => {
+            updateGameState(letter);
+            e.preventDefault();
+          }}
+          disabled={
+            gameState.playerStatus !== PlayerStatus.Play || letter.trim() === ""
+          }
+          type="submit"
+        >
+          Submit
+        </LetterSubmitButton>
+      </LetterInputForm>
       <ResetButton onClick={resetGameState}>Reset</ResetButton>
     </LetterInputContainer>
   );
