@@ -22,6 +22,34 @@ const Hideable = styled(Component)`
     props.show ? "visible" : "hidden"};
 `;
 
+const Rope = styled(Component)`
+  width: 6px;
+  height: 60px;
+  top: -39px;
+  left: 156px;
+`;
+
+const Beam = styled(Component)`
+  width: 150px;
+  height: 6px;
+  top: -39px;
+  left: 10px;
+`;
+
+const Pole = styled(Component)`
+  width: 6px;
+  height: 440px;
+  top: -39px;
+  left: 10px;
+`;
+
+const Base = styled(Component)`
+  width: 300px;
+  height: 6px;
+  top: 400px;
+  left: 10px;
+`;
+
 const Head = styled(Hideable)`
   width: 50px;
   height: 60px;
@@ -111,6 +139,11 @@ const StickPerson: React.FunctionComponent<StickPersonProps> = ({
 }) => {
   return (
     <Container>
+      <Rope />
+      <Beam />
+      <Pole />
+      <Base />
+
       <Head show={head} />
       <Torso show={torso} />
       <LeftArm show={leftArm} />
