@@ -23,101 +23,81 @@ const Hideable = styled(Component)`
 `;
 
 const Rope = styled(Component)`
-  width: 6px;
-  height: 60px;
-  top: -39px;
-  left: 156px;
+  width: 1%;
+  height: 15%;
+  left: 55%;
 `;
 
 const Beam = styled(Component)`
-  width: 150px;
-  height: 6px;
-  top: -39px;
-  left: 10px;
+  width: 50%;
+  height: 1%;
+  left: 5%;
 `;
 
 const Pole = styled(Component)`
-  width: 6px;
-  height: 440px;
-  top: -39px;
-  left: 10px;
+  width: 1%;
+  height: 100%;
+  left: 5%;
 `;
 
 const Base = styled(Component)`
-  width: 300px;
-  height: 6px;
-  top: 400px;
-  left: 10px;
+  width: 60%;
+  height: 1%;
+  top: 100%;
+  left: 5%;
 `;
 
 const Head = styled(Hideable)`
-  width: 50px;
-  height: 60px;
+  width: 20%;
+  height: 25%;
   border: 5px solid black;
   border-radius: 50%;
-  top: 21px;
-  left: 133px;
+  top: 15%;
+  left: 46%;
   z-index: 1;
   transform-origin: center bottom;
 `;
 
 const Torso = styled(Hideable)`
-  width: 6px;
-  height: 100px;
-  top: 80px;
-  left: 156px;
+  width: 1%;
+  height: 27%;
+  top: 40%;
+  left: 55%;
 `;
 
-const LeftLeg = styled(Hideable)`
-  width: 6px;
-  height: 100px;
-  top: 175px;
-  left: 155px;
+const Leg = styled(Hideable)`
+  width: 1%;
+  height: 30%;
+  top: 63%;
+  left: 55%;
+`;
+
+const LeftLeg = styled(Leg)`
   transform: rotate(12deg);
   transform-origin: top;
 `;
 
-const RightLeg = styled(Hideable)`
-  width: 6px;
-  height: 100px;
-  top: 175px;
-  left: 157px;
+const RightLeg = styled(Leg)`
   transform: rotate(-12deg);
   transform-origin: top;
 `;
 
 const LeftArm = styled(Hideable)`
-  width: 75px;
-  height: 6px;
-  top: 86px;
-  left: 83px;
+  width: 25%;
+  height: 1%;
+  top: 40%;
+  left: 30%;
   transform: rotate(-45deg);
   transform-origin: 100%;
 `;
 
 const RightArm = styled(Hideable)`
-  width: 75px;
-  height: 6px;
-  top: 86px;
-  left: 159px;
+  width: 25%;
+  height: 1%;
+  top: 40%;
+  left: 56%;
   transform-origin: 0%;
   transform: rotate(45deg);
-`;
-
-const LeftFoot = styled(Hideable)`
-  width: 30px;
-  height: 6px;
-  top: 270px;
-  left: 110px;
-  transform: rotate(8deg);
-`;
-
-const RightFoot = styled(Hideable)`
-  width: 30px;
-  height: 6px;
-  top: 270px;
-  left: 178px;
-  transform: rotate(-8deg);
 `;
 
 interface StickPersonProps {
@@ -149,9 +129,7 @@ const StickPerson: React.FunctionComponent<StickPersonProps> = ({
       <LeftArm show={leftArm} />
       <RightArm show={rightArm} />
       <LeftLeg show={leftLeg} />
-      <LeftFoot show={leftLeg} />
       <RightLeg show={rightLeg} />
-      <RightFoot show={rightLeg} />
     </Container>
   );
 };
