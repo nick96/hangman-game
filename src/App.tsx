@@ -18,7 +18,7 @@ const AppContainer = styled.div`
 
 // Display for the life count.
 const LifeDisplayContainer = styled.div`
-  grid-row: 2;
+  grid-row: 3;
 `;
 
 const DynamicGridContainer = styled.div`
@@ -47,7 +47,7 @@ const LetterInputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
-  grid-row: 3;
+  grid-row: 4;
 `;
 
 const TextInput = styled.input`
@@ -83,6 +83,8 @@ interface GameState {
   lives: number;
   // State of play the player is in.
   playerStatus: PlayerStatus;
+  // All letters the user has selected in the game.
+  selectedLetters: string[];
 }
 
 const WordDisplay: React.FunctionComponent<{
@@ -140,6 +142,7 @@ const LetterInput: React.FunctionComponent<{
   const [letter, setLetter] = React.useState("");
 
   const updateGameState = (letter: string) => {
+    gameState.selectedLetters.push(letter);
     const letterIndicies = matchAll(
       gameState.word,
       new RegExp(letter, "gi")
@@ -148,23 +151,31 @@ const LetterInput: React.FunctionComponent<{
       for (let index of letterIndicies) {
         gameState.guessedLetters[index] = letter;
       }
-      setGameState({ ...gameState });
     } else {
       gameState.lives -= 1;
-      setGameState({ ...gameState });
     }
-    setLetter("");
 
     if (gameState.lives === 0) {
       gameState.playerStatus = PlayerStatus.Lose;
-      setGameState({ ...gameState });
-      alert(`You lose! The word was ${gameState.word}`);
     } else if (
       gameState.guessedLetters.every((letter: string | null) => letter !== null)
     ) {
       gameState.playerStatus = PlayerStatus.Win;
-      setGameState({ ...gameState });
-      alert("You win!");
+    }
+
+    // Set the game state down here because there are many things that modify
+    // the game state in this function.
+    setGameState({ ...gameState });
+    setLetter("");
+
+    // Do the alerting after we've set the game state so that changes will be display before the popup.
+    switch (gameState.playerStatus) {
+      case PlayerStatus.Win:
+        alert("You win!");
+        break;
+      case PlayerStatus.Lose:
+        alert(`You lose! The word was ${gameState.word}`);
+        break;
     }
   };
 
@@ -174,6 +185,7 @@ const LetterInput: React.FunctionComponent<{
       lives: INITIAL_LIVES,
       guessedLetters: gameState.word.split("").map((_) => null),
       playerStatus: PlayerStatus.Play,
+      selectedLetters: [],
     });
   };
 
@@ -198,6 +210,28 @@ const LetterInput: React.FunctionComponent<{
   );
 };
 
+const SelectedLettersDisplay: React.FunctionComponent<{
+  letters: string[];
+}> = ({ letters }) => {
+  let displayLetters = letters.map((letter, i) => {
+    return (
+      <LetterDisplay
+        key={`selected-${i + 1}`}
+        index={i + 1}
+        wordLength={letters.length}
+      >
+        {letter}
+      </LetterDisplay>
+    );
+  });
+
+  return (
+    <SelectedLettersContainer wordLength={letters.length}>
+      {displayLetters}
+    </SelectedLettersContainer>
+  );
+};
+
 function App() {
   const words = Object.keys(data);
   const word = words[Math.floor(Math.random() * words.length)];
@@ -206,11 +240,13 @@ function App() {
     guessedLetters: word.split("").map((_) => null),
     lives: INITIAL_LIVES,
     playerStatus: PlayerStatus.Play,
+    selectedLetters: [],
   });
 
   return (
     <AppContainer>
       <WordDisplay guessedLetters={gameState.guessedLetters}></WordDisplay>
+      <SelectedLettersDisplay letters={gameState.selectedLetters} />
       <LifeDisplay lives={gameState.lives} />
       <LetterInput gameState={gameState} setGameState={setGameState} />
     </AppContainer>
