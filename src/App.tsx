@@ -9,8 +9,7 @@ const AppContainer = styled.div`
   text-align: center;
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -18,7 +17,9 @@ const AppContainer = styled.div`
 `;
 
 // Display for the life count.
-const LifeDisplay = styled.div``;
+const LifeDisplay = styled.div`
+  grid-row: 2;
+`;
 
 const WordDisplayContainer = styled.div`
   display: grid;
@@ -27,6 +28,7 @@ const WordDisplayContainer = styled.div`
     1fr
   );
   grid-gap: 10px;
+  grid-row: 1;
 `;
 
 const LetterDisplay = styled.span`
@@ -38,6 +40,7 @@ const LetterInputContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+  grid-row: 3;
 `;
 
 const TextInput = styled.input`
