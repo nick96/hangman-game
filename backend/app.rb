@@ -22,6 +22,8 @@ DB.create_table? :games do
   String :selected
   # Number of lives the player has left
   Integer :lives
+  # Status of the current player
+  Integer :status
 end
 
 games = DB[:games]
@@ -40,20 +42,21 @@ end
 # Request the creation of a new game.
 post '/game' do
   name = SecureRandom.hex 6
-  new_game = games.returning(:name, :word, :guessed, :selected, :lives).insert(
+  new_game = games.returning(:name, :word, :guessed, :selected, :lives, :status).insert(
     name: name,
     word: '',
     guessed: '',
     selected: '',
-    lives: 6
-  )
+    lives: 6,
+    status: 0,
+  ).first
   status 201
   new_game.to_json
 end
 
 # Get the status of game by `name`.
 get '/game/:name' do |name|
-  game = games.select(:name, :word, :guessed, :selected, :lives).where(name: name).first
+  game = games.select(:name, :word, :guessed, :selected, :lives, :status).where(name: name).first
   if game.nil?
     status 404
     return
@@ -71,7 +74,7 @@ put '/game/:name' do |name|
 
   request.body.rewind
   data = JSON.parse request.body.read, symbolize_names: true
-  expected_keys = %i[name word guessed selected lives]
+  expected_keys = %i[name word guessed selected lives status]
   if data.keys.sort != expected_keys.sort
     status 400
     msg = {
@@ -85,6 +88,7 @@ put '/game/:name' do |name|
                                  word: data[:word],
                                  guessed: data[:guessed],
                                  selected: data[:selected],
-                                 lives: data[:lives])
+                                 lives: data[:lives],
+                                 status: data[:status])
   games.where(name: name).first.to_json
 end
