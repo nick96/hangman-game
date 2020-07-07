@@ -2,6 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import StickPerson from "./StickPerson";
 import data from "./data/words.json";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+  Redirect,
+} from "react-router-dom";
+
+// URL of the REST API
+const API_URL = "http://localhost:4567";
 
 // Number of lives the user starts with initially.
 const INITIAL_LIVES = 6;
@@ -321,15 +331,72 @@ const newRandomWord = (): string => {
   return words[index];
 };
 
-const App = () => {
+const Game = () => {
+  const { name } = useParams();
   const word = newRandomWord();
-  let [gameState, setGameState] = React.useState<GameState>({
-    word: word,
-    guessedLetters: word.split("").map((_) => null),
-    lives: INITIAL_LIVES,
-    playerStatus: PlayerStatus.Play,
-    selectedLetters: [],
-  });
+  const url = `${API_URL}/game/${name}`;
+  let [gameState, setGameState] = React.useState<GameState | null>(null);
+
+  React.useEffect(() => {
+    fetch(`${API_URL}/game/${name}`)
+      .then((resp) => resp.json())
+      .then((json) => {
+        if (json.word === "") {
+          setGameState({
+            word: word,
+            guessedLetters: word.split("").map((_) => null),
+            lives: INITIAL_LIVES,
+            playerStatus: PlayerStatus.Play,
+            selectedLetters: [],
+          });
+        } else {
+          let guessedLetters;
+          if (json.guessed === "") {
+            guessedLetters = json.word.split("").map((_: string) => null);
+          } else {
+            guessedLetters = json.guessed.split("");
+          }
+          setGameState({
+            word: json.word,
+            guessedLetters: guessedLetters,
+            lives: json.lives,
+            playerStatus: json.status,
+            selectedLetters: json.selected.split(""),
+          });
+        }
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (gameState !== null) {
+      fetch(`${API_URL}/game/${name}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          word: gameState.word,
+          guessed: gameState.guessedLetters.join(""),
+          selected: gameState.selectedLetters.join(""),
+          lives: gameState.lives,
+          status: gameState.playerStatus,
+        }),
+      })
+        .then((resp) => {
+          if (resp.status !== 200) {
+            console.error(`Failed to update game ${name}: ${resp.body}`);
+          }
+          return resp.json();
+        })
+        .then((json) => {
+          console.log(json);
+        })
+        .catch((e) => console.error(e));
+    }
+  }, [gameState]);
+
+  if (gameState === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AppContainer>
@@ -340,5 +407,34 @@ const App = () => {
     </AppContainer>
   );
 };
+
+const NewGame: React.FunctionComponent = () => {
+  const [name, setName] = React.useState("");
+  React.useEffect(() => {
+    fetch(`${API_URL}/game`, { method: "POST" })
+      .then((resp) => resp.json())
+      .then((json) => setName(json.name))
+      .catch((e) => console.error(e));
+  }, []);
+
+  if (name === "") {
+    return <div>Loading</div>;
+  }
+  return <Redirect to={`/${name}`} />;
+};
+
+const App = () => (
+  <Router>
+    <Switch>
+      <Route path="/:name">
+        <Game />
+      </Route>
+
+      <Route path="/">
+        <NewGame />
+      </Route>
+    </Switch>
+  </Router>
+);
 
 export default App;
