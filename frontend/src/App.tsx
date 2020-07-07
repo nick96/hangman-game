@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 
 // URL of the REST API
-const API_URL = "http://localhost:4567";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4567";
 
 // Number of lives the user starts with initially.
 const INITIAL_LIVES = 6;
