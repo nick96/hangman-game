@@ -2,6 +2,7 @@
 
 require 'sequel'
 require 'sinatra'
+require 'sinatra/cors'
 require 'securerandom'
 require 'json'
 
@@ -26,6 +27,11 @@ end
 games = DB[:games]
 
 enable :logging
+
+set :allow_origin, '*'
+set :allow_methods, 'GET,POST, PUT'
+set :allow_headers, 'content-type,if-modified-since'
+set :expose_headers, 'location,link'
 
 before do
   content_type 'application/json'
