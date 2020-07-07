@@ -1,0 +1,112 @@
+#+title: README
+
+* =POST /game=
+
+Create a new game.
+
+** Request
+
+#+begin_src restclient
+  POST http://localhost:4567/game
+#+end_src
+
+
+#+BEGIN_SRC js
+[
+  {
+    "name": "7787027a8ed9",
+    "word": "",
+    "guessed": "",
+    "selected": "",
+    "lives": 6
+  }
+]
+// POST http://localhost:4567/game
+// HTTP/1.1 201 Created
+// Content-Type: application/json
+// X-Content-Type-Options: nosniff
+// Content-Length: 72
+// Request duration: 0.029838s
+#+END_SRC
+
+* =GET /game/:name=
+
+Get a game.
+
+** Successful request
+
+#+begin_src restclient
+  GET http://localhost:4567/game/7787027a8ed9
+#+end_src
+
+
+#+BEGIN_SRC js
+{
+  "name": "7787027a8ed9",
+  "word": "",
+  "guessed": "",
+  "selected": "",
+  "lives": 6
+}
+// GET http://localhost:4567/game/7787027a8ed9
+// HTTP/1.1 200 OK
+// Content-Type: application/json
+// X-Content-Type-Options: nosniff
+// Content-Length: 70
+// Request duration: 0.008367s
+#+END_SRC
+
+** Unsuccessful request
+
+#+begin_src restclient
+  GET http://localhost:4567/game/missing
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+// GET http://localhost:4567/game/missing
+// HTTP/1.1 404 Not Found
+// Content-Type: application/json
+// X-Content-Type-Options: nosniff
+// Content-Length: 0
+// Request duration: 0.017700s
+#+END_SRC
+
+
+* =PUT /game/:name=
+
+Update a game.
+
+** Successful request
+
+#+begin_src restclient
+  PUT http://localhost:4567/game/7787027a8ed9
+  Content-Type: application/json
+
+  {
+    "name": "7787027a8ed9",
+    "word": "test",
+    "guessed": "_e__",
+    "selected": "ef",
+    "lives": 5
+  }
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC js
+{
+  "id": 2,
+  "name": "7787027a8ed9",
+  "word": "test",
+  "guessed": "_e__",
+  "selected": "ef",
+  "lives": 5
+}
+// PUT http://localhost:4567/game/7787027a8ed9
+// HTTP/1.1 200 OK
+// Content-Type: application/json
+// X-Content-Type-Options: nosniff
+// Content-Length: 87
+// Request duration: 0.010688s
+#+END_SRC
+
