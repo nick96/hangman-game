@@ -6,7 +6,7 @@ require 'sinatra/cors'
 require 'securerandom'
 require 'json'
 
-db_url = ENV['DB_URL'] || 'postgres://test:test@localhost:5432/hangmandb'
+db_url = ENV['DATABASE_URL'] || 'postgres://test:test@localhost:5432/hangmandb'
 DB = Sequel.connect db_url
 
 DB.create_table? :games do
