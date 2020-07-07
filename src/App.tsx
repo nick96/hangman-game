@@ -263,7 +263,7 @@ const newRandomWord = (): string => {
   return words[index];
 };
 
-function App() {
+const App = () => {
   const word = newRandomWord();
   let [gameState, setGameState] = React.useState<GameState>({
     word: word,
@@ -281,6 +281,6 @@ function App() {
       <LetterInput gameState={gameState} setGameState={setGameState} />
     </AppContainer>
   );
-}
+};
 
 export default App;
