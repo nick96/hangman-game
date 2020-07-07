@@ -97,15 +97,15 @@ interface GameState {
 const WordDisplay: React.FunctionComponent<{
   guessedLetters: (string | null)[];
 }> = ({ guessedLetters }) => {
-  let displayLetters = guessedLetters.map((letter, i) => {
-    const displayLetter = letter === null ? "_" : letter;
+  const displayLetters = guessedLetters.map((letter, i) => {
+    const displayLetterChar = letter === null ? "_" : letter;
     return (
       <LetterDisplay
         key={i + 1}
         index={i + 1}
         wordLength={guessedLetters.length}
       >
-        {displayLetter}
+        {displayLetterChar}
       </LetterDisplay>
     );
   });
