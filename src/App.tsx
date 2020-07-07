@@ -196,10 +196,11 @@ const LetterInput: React.FunctionComponent<{
   };
 
   const resetGameState = () => {
+    const word = newRandomWord();
     setGameState({
-      word: newRandomWord(),
+      word: word,
       lives: INITIAL_LIVES,
-      guessedLetters: gameState.word.split("").map((_) => null),
+      guessedLetters: word.split("").map((_) => null),
       playerStatus: PlayerStatus.Play,
       selectedLetters: [],
     });
