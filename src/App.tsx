@@ -61,15 +61,72 @@ const TextInput = styled.input`
   grid-column: 1 / 3;
   grid-row: 1;
 `;
-const LetterSubmitButton = styled.button`
+
+const Button = styled.button`
+    color: #444444;
+    background: #F3F3F3;
+    border: 1px #DADADA solid;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-weight: bold;
+    outline: none;
+
+    &:hover {
+        border: 1px #C6C6C6 solid;
+        box-shadow: 1px 1px 1px #EAEAEA;
+        color: #333333;
+        background: #F7F7F7;
+    }
+
+    &:active {
+        box-shadow: inset 1px 1px 1px #DFDFDF;
+    }
+}`;
+
+const LetterSubmitButton = styled(Button)`
   grid-column: 3;
   grid-row: 1;
-`;
+  color: white;
+  background: #4c8ffb;
+  border: 1px #3079ed solid;
+  box-shadow: inset 0 1px 0 #80b0fb;
+
+  &:hover {
+    border: 1px #2f5bb7 solid;
+    box-shadow: 0 1px 1px #eaeaea, inset 0 1px 0 #5a94f1;
+    background: #3f83f1;
+  }
+
+  &:active {
+    box-shadow: inset 0 2px 5px #2370FE;
+  }
+}`;
 
 const ResetButton = styled.button`
   grid-column: 1/4;
   grid-row: 2;
-`;
+
+  background: -webkit-linear-gradient(top, #DD4B39, #D14836);
+  background: -moz-linear-gradient(top, #DD4B39, #D14836);
+  background: -ms-linear-gradient(top, #DD4B39, #D14836);
+  border: 1px solid #DD4B39;
+  color: white;
+  text-shadow: 0 1px 0 #C04131 ;
+
+  &:hover {
+    background: -webkit-linear-gradient(top, #DD4B39, #C53727);
+    background: -moz-linear-gradient(top, #DD4B39, #C53727);
+    background: -ms-linear-gradient(top, #DD4B39, #C53727);
+    border: 1px solid #AF301F;
+  }
+
+  &:active {
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
+    background: -webkit-linear-gradient(top, #D74736, #AD2719);
+    background: -moz-linear-gradient(top, #D74736, #AD2719);
+    background: -ms-linear-gradient(top, #D74736, #AD2719);
+  }
+}`;
 
 enum PlayerStatus {
   Play,
