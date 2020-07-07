@@ -9,7 +9,7 @@ const INITIAL_LIVES = 6;
 // Styled container that the whole app is wrapped in.
 const AppContainer = styled.div`
   text-align: center;
-  min-height: 100vh;
+  min-height: 75vh;
   display: grid;
   align-items: center;
   justify-content: center;
