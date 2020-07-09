@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./data:/data"
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: hangmandb
+
+  backend:
+    build:
+      dockerfile: ./backend/Dockerfile
+      context: ./backend
+    environment:
+      DATABASE_URL: "postgres://test:test@db/hangmandb"
+    ports:
+      - "5678:5678"
+  
+  frontend:
+      build:
+        dockerfile: ./backend/Dockerfile
+        context: ./backend
+      environment:
+        REACT_APP_API_URL: "http://localhost:5678"
+      ports:
+        - "3000:3000"
